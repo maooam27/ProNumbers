@@ -1,12 +1,44 @@
 from tkinter import *
 from tkinter import ttk
 
+# TODO: optimize imports
 
 # Main colors, background and foreground
 bgc = "#232A2F"
 bgc_light = "#2B3338"
 fgc = "#bfbfbf"
 fgc_light = "#d0d0d0"
+
+# Functions
+
+def openWindow(s: str):
+    if s == "Temperatures":
+        window = Tk()
+        window.title(f"{s} conversions")
+        window.geometry("800x600")
+        window.resizable(False, False)
+        window.configure(bg=bgc)
+    elif s == "Distances":
+        window = Tk()
+        window.title(f"{s} conversions")
+        window.geometry("800x600")
+        window.resizable(False, False)
+        window.configure(bg=bgc)
+    elif s == "Pressure":
+        window = Tk()
+        window.title(f"{s} conversions")
+        window.geometry("800x600")
+        window.resizable(False, False)
+        window.configure(bg=bgc)
+    elif s == "Power":
+        window = Tk()
+        window.title(f"{s} conversions")
+        window.geometry("800x600")
+        window.resizable(False, False)
+        window.configure(bg=bgc)
+    else:
+        return
+
 
 # Make root window
 root = Tk()
@@ -24,14 +56,16 @@ subtitle.pack(padx=10, pady=5, anchor="nw")
 
 
 # TODO: choosing list here
-country = ttk.Combobox(root)
-country['values'] = ("usa", "italy", "europe", "yay")
-country.pack()
+selectedCategory = ttk.Combobox(root)
+selectedCategory['values'] = ("Temperatures", "Distances", "Pressure", "Power")
+selectedCategory.pack(padx=10, pady=20)
 
-# country.state(["readonly"]) to make it read-only
+def cambiato():
+    print("dd")
 
-get_data = ttk.Button(text="get data", command=lambda: print(country.get()))
-get_data.pack()
+# TODO: find error
+
+selectedCategory.bind("<<ComboboxSelected>>", cambiato) #openWindow(selectedCategory.get()))
 
 if __name__ == "__main__":
     root.mainloop()
