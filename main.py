@@ -11,7 +11,8 @@ fgc_light = "#d0d0d0"
 
 # Functions
 
-def openWindow(s: str):
+def openWindow(event):
+    s = selectedCategory.get()
     if s == "Temperatures":
         window = Tk()
         window.title(f"{s} conversions")
@@ -56,16 +57,12 @@ subtitle.pack(padx=10, pady=5, anchor="nw")
 
 
 # TODO: choosing list here
-selectedCategory = ttk.Combobox(root)
+selectedCategory = ttk.Combobox(root, state="readonly")
 selectedCategory['values'] = ("Temperatures", "Distances", "Pressure", "Power")
+selectedCategory.current(0)
 selectedCategory.pack(padx=10, pady=20)
 
-def cambiato():
-    print("dd")
-
-# TODO: find error
-
-selectedCategory.bind("<<ComboboxSelected>>", cambiato) #openWindow(selectedCategory.get()))
+selectedCategory.bind('<<ComboboxSelected>>', openWindow)
 
 if __name__ == "__main__":
     root.mainloop()
