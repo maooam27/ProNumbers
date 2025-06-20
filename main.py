@@ -49,14 +49,36 @@ class TemperatureWindow:
         
         # Events: when changing a value -> update celsius -> update everything else based on celsius conversion
         self.farenheitEntry.bind("<KeyRelease>", self.farenheitChanged)
+        self.celsiusEntry.bind("<KeyRelease>", self.celsiusChanged)
+        self.kelvinEntry.bind("<KeyRelease>", self.kelvinChanged)
         
-        # TODO: fix conversion errors
+        # TODO: fix conversion and errors
         
     def farenheitChanged(self, *args):
         self.celsiusEntry.delete(0, 'end')
-        converted = (int(self.farenheitEntry.get()) - 32) / (9/5)
-        self.celsiusEntry.insert(0, str(converted))
+        self.kelvinEntry.delete(0, "end")
+        cConverted = (int(self.farenheitEntry.get()) - 32) / (9/5)
+        self.celsiusEntry.insert(0, str(cConverted))
+        kConverted = cConverted + 273.15
+        self.kelvinEntry.insert(0, str(kConverted))
+        
+    def celsiusChanged(self, *args):
+        self.farenheitEntry.delete(0, 'end')
+        self.kelvinEntry.delete(0, "end")
+        kConverted = int(self.celsiusEntry.get()) + 273.15
+        self.kelvinEntry.insert(0, str(kConverted))
+        kConverted = cConverted + 273.15
+        self.kelvinEntry.insert(0, str(kConverted))
+        
+    def kelvinChanged(self, *args):
+        self.celsiusEntry.delete(0, 'end')
+        self.kelvinEntry.delete(0, "end")
+        cConverted = (int(self.farenheitEntry.get()) - 32) / (9/5)
+        self.celsiusEntry.insert(0, str(cConverted))
+        kConverted = cConverted + 273.15
+        self.kelvinEntry.insert(0, str(kConverted))
 
+        
         
 class DistanceWindow:
     def __init__(self):
