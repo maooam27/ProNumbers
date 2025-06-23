@@ -55,38 +55,120 @@ class TemperatureWindow:
         # TODO: fix conversion and errors
         
     def farenheitChanged(self, *args):
-        self.celsiusEntry.delete(0, 'end')
-        self.kelvinEntry.delete(0, "end")
-        cConverted = (int(self.farenheitEntry.get()) - 32) / (9/5)
-        self.celsiusEntry.insert(0, str(cConverted))
-        kConverted = cConverted + 273.15
-        self.kelvinEntry.insert(0, str(kConverted))
+        try:
+            self.celsiusEntry.delete(0, 'end')
+            self.kelvinEntry.delete(0, "end")
+            cConverted = (int(self.farenheitEntry.get()) - 32) / (9/5)
+            self.celsiusEntry.insert(0, str(cConverted))
+            kConverted = cConverted + 273.15
+            self.kelvinEntry.insert(0, str(kConverted))
+        except Exception as e:
+            print(e)
+            return
         
     def celsiusChanged(self, *args):
-        self.farenheitEntry.delete(0, 'end')
-        self.kelvinEntry.delete(0, "end")
-        kConverted = int(self.celsiusEntry.get()) + 273.15
-        self.kelvinEntry.insert(0, str(kConverted))
-        kConverted = cConverted + 273.15
-        self.kelvinEntry.insert(0, str(kConverted))
+        try:
+            self.farenheitEntry.delete(0, 'end')
+            self.kelvinEntry.delete(0, "end")
+            kConverted = int(self.celsiusEntry.get()) + 273.15
+            self.kelvinEntry.insert(0, str(kConverted))
+            fConverted = (kConverted - 273.15) * (9/5) + 32
+            self.farenheitEntry.insert(0, str(fConverted))
+        except Exception as e:
+            print(e)
+            return
         
     def kelvinChanged(self, *args):
-        self.celsiusEntry.delete(0, 'end')
-        self.kelvinEntry.delete(0, "end")
-        cConverted = (int(self.farenheitEntry.get()) - 32) / (9/5)
-        self.celsiusEntry.insert(0, str(cConverted))
-        kConverted = cConverted + 273.15
-        self.kelvinEntry.insert(0, str(kConverted))
+        try:
+            self.celsiusEntry.delete(0, 'end')
+            self.farenheitEntry.delete(0, "end")
+            cConverted = int(self.kelvinEntry.get()) - 273.15
+            self.celsiusEntry.insert(0, str(cConverted))
+            fConverted = (cConverted * 9/5) + 32
+            self.farenheitEntry.insert(0, str(fConverted))
+        except Exception as e:
+            print(e)
+            return
 
         
-        
+
 class DistanceWindow:
     def __init__(self):
-        self.window = Tk()
-        self.window.title("Distances conversions")
-        self.window.geometry("800x600")
-        self.window.resizable(False, False)
-        self.window.configure(bg=bgc)
+        window = Tk()
+        window.title("Distances conversions")
+        window.geometry("800x600")
+        window.resizable(False, False)
+        window.configure(bg=bgc)
+        
+        title = ttk.Label(window, text="Distance", font=("Ubuntu", 26, "bold"), foreground=fgc_light, background=bgc)
+        title.pack(padx=10, pady=3, anchor="nw")
+
+        subtitle = ttk.Label(window, text="Insert your data", font=("Ubuntu", 20, "italic"), background=bgc, foreground=fgc)
+        subtitle.pack(padx=10, pady=5, anchor="nw")
+        
+        # Frame
+        conversionFrame = Frame(window, background=bgc)
+        conversionFrame.pack(padx=10, pady=10)
+        
+        # Widgets
+        self.meter = StringVar()
+        meterLabel = ttk.Label(conversionFrame, text="Meters", font=("Ubuntu", 16), background=bgc, foreground=fgc_light)
+        meterLabel.grid(padx=2, pady=5, row=0, column=0)
+        self.meterEntry = ttk.Entry(conversionFrame, textvariable=self.meter)
+        self.meterEntry.grid(padx=2, pady=5, row=0, column=1)
+        
+        self.foot = StringVar()
+        footLabel = ttk.Label(conversionFrame, text="Feet", font=("Ubuntu", 16), background=bgc, foreground=fgc_light)
+        footLabel.grid(padx=2, pady=5, row=1, column=0)
+        self.footEntry = ttk.Entry(conversionFrame, textvariable=self.foot)
+        self.footEntry.grid(padx=2, pady=5, row=1, column=1)
+        
+        self.yard = StringVar()
+        yardLabel = ttk.Label(conversionFrame, text="Yards", font=("Ubuntu", 16), background=bgc, foreground=fgc_light)
+        yardLabel.grid(padx=2, pady=5, row=2, column=0)
+        self.yardEntry = ttk.Entry(conversionFrame, textvariable=self.yard)
+        self.yardEntry.grid(padx=2, pady=5, row=2, column=1)
+        
+        # Events: when changing a value -> update celsius -> update everything else based on celsius conversion
+        self.yardEntry.bind("<KeyRelease>", self.yardChanged)
+        self.meterEntry.bind("<KeyRelease>", self.meterChanged)
+        self.footEntry.bind("<KeyRelease>", self.footChanged)
+        
+    def yardChanged(self, *args):
+        try:
+            self.meterEntry.delete(0, 'end')
+            self.footEntry.delete(0, "end")
+            mConverted = (float(self.yardEntry.get())) / 1.094
+            self.meterEntry.insert(0, str(mConverted))
+            fConverted = float(self.yardEntry.get()) * 3
+            self.footEntry.insert(0, str(fConverted))
+        except Exception as e:
+            print(e)
+            return
+        
+    def meterChanged(self, *args):
+        try:
+            self.yardEntry.delete(0, 'end')
+            self.footEntry.delete(0, "end")
+            fConverted = float(self.meterEntry.get()) * 3.281
+            self.footEntry.insert(0, str(fConverted))
+            yConverted = (fConverted) / 3
+            self.yardEntry.insert(0, str(yConverted))
+        except Exception as e:
+            print(e)
+            return
+        
+    def footChanged(self, *args):
+        try:
+            self.meterEntry.delete(0, 'end')
+            self.yardEntry.delete(0, "end")
+            mConverted = float(self.footEntry.get()) / 3.281
+            self.meterEntry.insert(0, str(mConverted))
+            yConverted = float(self.footEntry.get()) / 3
+            self.yardEntry.insert(0, str(yConverted))
+        except Exception as e:
+            print(e)
+            return
 
 
 class PressureWindow:
