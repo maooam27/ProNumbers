@@ -171,6 +171,7 @@ class DistanceWindow:
             return
 
 
+''' To be added in future
 class PressureWindow:
     def __init__(self):
         self.window = Tk()
@@ -187,6 +188,7 @@ class PowerWindow:
         self.window.geometry("800x600")
         self.window.resizable(False, False)
         self.window.configure(bg=bgc)
+'''
 
 
 # Functions
@@ -197,10 +199,10 @@ def openWindow(event):
         window = TemperatureWindow()
     elif s == "Distances":
         window = DistanceWindow()
-    elif s == "Pressure":
-        window = PressureWindow()
-    elif s == "Power":
-        window = PowerWindow()
+    #elif s == "Pressure":
+    #    window = PressureWindow()
+    #elif s == "Power":
+    #    window = PowerWindow()
     else:
         return
 
@@ -222,7 +224,7 @@ subtitle.pack(padx=10, pady=5, anchor="nw")
 
 # TODO: choosing list here
 selectedCategory = ttk.Combobox(root, state="readonly")
-selectedCategory['values'] = ("Temperatures", "Distances", "Pressure", "Power")
+selectedCategory['values'] = ("Temperatures", "Distances") #, "Pressure", "Power")
 selectedCategory.current(0)
 selectedCategory.pack(padx=10, pady=20)
 
